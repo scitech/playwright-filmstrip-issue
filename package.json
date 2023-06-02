@@ -1,0 +1,11 @@
+{
+  "name": "filmstrip-issue",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@axe-core/playwright": "^4.7.2",
+    "@playwright/test": "^1.34.3"
+  },
+  "scripts": {}
+}
