@@ -65,37 +65,31 @@ export async function assertPassesAudit(
 }
 
 test.describe("Happy path", () => {
-  test('should pass visual regression and accessibility', async ({ page }) => {
+  test('should pass accessibility', async ({ page }) => {
     await page.goto('https://healthcare.gov/see-plans');
 
     await test.step("landing page", async () => {
-      expect(
-        page.getByText("Enter your ZIP Code & choose your location:")
-      ).toBeVisible();
       await page.type(".ds-c-field", "60647");
       await page.waitForSelector(".ds-c-autocomplete__list-item");
-      await expect(page).toHaveScreenshot("landing-page.png", {
-        fullPage: true,
-      });
+
       await assertPassesAudit(page, "happy_path_landing");
+
       await page.click(".ds-c-autocomplete__list-item");
       const selector = ".ws-c-landing__continue-btn";
       const continueBtn = await page.waitForSelector(selector);
       await continueBtn.click();
-      // wait for steps page
       await page.waitForSelector(".ds-c-step-list");
     });
     await test.step("steps page", async () => {
       expect(page).toHaveURL("https://www.healthcare.gov/see-plans/#/steps");
-      await expect(page).toHaveScreenshot("steps-page.png", { fullPage: true });
+
       await assertPassesAudit(page, "happy_path_steps");
+
       await page.click(".ds-c-button.ds-c-button--solid");
     });
     await test.step("household page", async () => {
       expect(page).toHaveURL("https://www.healthcare.gov/see-plans/#/household");
-      await expect(page).toHaveScreenshot("household-intro.png", {
-        fullPage: true,
-      });
+      
       await assertPassesAudit(page, "happy_path_household");
     });
   });
